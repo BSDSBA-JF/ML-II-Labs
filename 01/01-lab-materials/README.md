@@ -1,6 +1,6 @@
 # Lab Guidelines
 
-This file contains all of the technical specifications you need for the lab case. This includes the data dictionary and the expected output format from your model. Kindly read this thoroughly.
+This file contains all of the technical specifications you need for the lab case. This includes the data dictionary and the expected output format from your model. Kindly read this thoroughly. For Prof. Ethan, the project environment is set up with Python version 3.12.8.
 
 ## Data Dictionary
 
