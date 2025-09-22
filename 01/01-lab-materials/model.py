@@ -1,10 +1,11 @@
-from typing import Iterable, Optional, Union
+from typing import Iterable, Optional, Union, Tuple
 
 import numpy as np
 import pandas as pd
 
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.ensemble import RandomForestClassifier
+from imblearn.over_sampling import SMOTE
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.metrics import (
@@ -182,8 +183,26 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         """
         return self.fit(X, y).predict(X)
 
-    def _handle_imbalance(self, X, y):
-        return X, y
+
+    def _handle_imbalance(
+        self,
+        X: Union[pd.DataFrame, np.ndarray],
+        y: Union[pd.Series, np.ndarray]
+    ) -> Tuple[Union[pd.DataFrame, np.ndarray], Union[pd.Series, np.ndarray]]:
+        """
+        Handle class imbalance in the dataset using SMOTE (Synthetic Minority Oversampling Technique).
+
+        Args:
+            X (Union[pd.DataFrame, np.ndarray]): Feature matrix.
+            y (Union[pd.Series, np.ndarray]): Target vector.
+
+        Returns:
+            Tuple[Union[pd.DataFrame, np.ndarray], Union[pd.Series, np.ndarray]]:
+                The resampled feature matrix and target vector after applying SMOTE.
+        """
+        smote = SMOTE(random_state=37)
+        X_res, y_res = smote.fit_resample(X, y)
+        return X_res, y_res
 
     #### END MODIFY THIS METHOD
 
