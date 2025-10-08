@@ -6,7 +6,7 @@ import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
-from sklearn.pipeline import Pipeline
+from imblearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.metrics import (
     make_scorer,
