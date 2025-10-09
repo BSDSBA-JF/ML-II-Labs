@@ -97,7 +97,7 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         self._lime_explainer_ = LimeTabularExplainer(
             training_data=np.array(X_balanced),
             feature_names=feature_names,
-            class_names=[0, 1],
+            class_names=['Innocent', 'Fraudulent'],
             mode="classification",
             discretize_continuous=True,
             random_state=self.random_state
