@@ -3,10 +3,10 @@ from typing import Iterable, Optional, Union, Tuple
 import numpy as np
 import pandas as pd
 
+from imblearn.pipeline import Pipeline
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
-from imblearn.pipeline import Pipeline
 from sklearn.model_selection import StratifiedKFold, GridSearchCV
 from sklearn.metrics import (
     make_scorer,
@@ -15,7 +15,9 @@ from sklearn.metrics import (
     f1_score,
 )
 from sklearn.utils.validation import check_is_fitted
-
+from lime.lime_tabular import LimeTabularExplainer
+from lime.explanation import Explanation
+from IPython.display import display, HTML
 from imblearn.base import BaseSampler
 
 
@@ -32,12 +34,12 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
     ------------
     - Uses a Random Forest classifier with 500 estimators as a baseline.
     - Supports rebalancing strategies (e.g., SMOTE, undersampling,
-      hybrid methods) via `experiment_fit`.
+      hybrid methods) via experiment_fit.
     - Provides custom scoring metrics tailored for fraud detection:
       * Absolute Net Value Gained (total amount of fraud correctly flagged).
       * Relative Net Value Gained (proportion of fraudulent value caught).
     - Compatible with scikit-learn model selection tools such as
-      `GridSearchCV` and `Pipeline`.
+      GridSearchCV and Pipeline.
 
     Parameters
     ----------
@@ -49,7 +51,7 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
 
     Attributes
     ----------
-    _model_ : RandomForestClassifier
+    model : RandomForestClassifier
         The underlying Random Forest classifier.
     """
     
@@ -77,12 +79,30 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         y (np.ndarray | pd.Sereis): The corresponding targets
         sample_weight (iterable): Sample class weights (default=None)
         """
+        # Handle imbalance
+        X_balanced, y_balanced = self._handle_imbalance(X, y)
 
-        X_balanced, y_balanced = self._handle_imbalance(X, y) # you can modify the parameters here if needed
+        # Train the model
         if sample_weight is None:
             self._model_.fit(X_balanced, y_balanced)
         else:
             self._model_.fit(X_balanced, y_balanced, sample_weight=sample_weight)
+
+        # Store training data for later explainability
+        self._X_train_ = X_balanced.copy()
+
+        # Prepare LIME explainer immediately after training
+        feature_names = list(X_balanced.columns) if isinstance(X_balanced, pd.DataFrame) else None
+
+        self._lime_explainer_ = LimeTabularExplainer(
+            training_data=np.array(X_balanced),
+            feature_names=feature_names,
+            class_names=[0, 1],
+            mode="classification",
+            discretize_continuous=True,
+            random_state=self.random_state
+        )
+
         return self
 
     def experiment_fit(
@@ -168,10 +188,47 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
 
         return search.cv_results_ 
 
+    def explain_why_fraud(
+        self,
+        transaction: Union[np.ndarray, pd.Series, pd.DataFrame],
+        num_features: int = 10
+    ) -> Explanation:
+        """
+        Generate a LIME explanation for a given transaction.
 
+        The explanation will automatically be displayed in HTML format 
+        for convenience, and the Explanation object is also returned.
+        """
+        check_is_fitted(self._model_)
+
+        if not hasattr(self, "_lime_explainer_"):
+            raise AttributeError(
+                "LIME explainer not found. Please fit the model first before calling explain_why_fraud()."
+            )
+
+        # Ensure input is correctly shaped
+        if isinstance(transaction, pd.Series):
+            instance = transaction.values.reshape(1, -1)
+        elif isinstance(transaction, pd.DataFrame):
+            instance = transaction.values
+        else:
+            instance = np.array(transaction).reshape(1, -1)
+
+        # Generate explanation
+        explanation = self._lime_explainer_.explain_instance(
+            data_row=instance[0],
+            predict_fn=self._model_.predict_proba,
+            num_features=num_features
+        )
+
+        # Display explanation automatically
+        display(HTML(explanation.as_html()))
+
+        return explanation
+    
     def predict(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
         """Predict the outcome from data X."""
-        check_is_fitted(self, "_model_")
+        check_is_fitted(self, "model")
         return self._model_.predict(X)
 
     def fit_predict(
@@ -204,9 +261,11 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         X_res, y_res = smote.fit_resample(X, y)
         return X_res, y_res
 
+            
     #### END MODIFY THIS METHOD
 
     # Helper functions
+
     @staticmethod
     def abs_net_value_scorer(
         estimator: BaseEstimator,
@@ -223,7 +282,7 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
         estimator : BaseEstimator
-            The trained estimator with a `predict` method.
+            The trained estimator with a predict method.
         X : Union[pd.DataFrame, np.ndarray]
             Feature set containing transaction data. The last column is 
             assumed to represent the transaction amount.
@@ -261,7 +320,7 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
         estimator : BaseEstimator
-            The trained estimator with a `predict` method.
+            The trained estimator with a predict method.
         X : Union[pd.DataFrame, np.ndarray]
             Feature set containing transaction data. The last column is 
             assumed to represent the transaction amount.
@@ -274,7 +333,7 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
         float
             The ratio of detected fraudulent transaction value to the total 
             fraudulent transaction value. Returns 0 if there are no fraud 
-            cases in `y`.
+            cases in y.
         """
         # Ensure X is a DataFrame
         if not isinstance(X, pd.DataFrame):
