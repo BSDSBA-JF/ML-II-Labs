@@ -267,42 +267,21 @@ class FraudDetector(BaseEstimator, ClassifierMixin):
     # Helper functions
 
     @staticmethod
-    def abs_net_value_scorer(
-        estimator: BaseEstimator,
-        X: Union[pd.DataFrame, np.ndarray],
-        y: Union[pd.Series, np.ndarray]
-    ) -> float:
+    def abs_net_value_scorer(estimator, X, y):
+        """Compute the absolute net monetary value.
+        
+        Calculates the total value of fraud correctly detected and subtracts
+        the value of legitimate transactions incorrectly flagged.
         """
-        Custom scoring function to calculate the absolute net value gained
-        from fraud detection.
-    
-        This metric sums the transaction amounts of fraud cases that are 
-        correctly identified by the model.
-    
-        Parameters
-        ----------
-        estimator : BaseEstimator
-            The trained estimator with a predict method.
-        X : Union[pd.DataFrame, np.ndarray]
-            Feature set containing transaction data. The last column is 
-            assumed to represent the transaction amount.
-        y : Union[pd.Series, np.ndarray]
-            True class labels, where 1 indicates fraud and 0 indicates 
-            non-fraud.
-    
-        Returns
-        -------
-        float
-            The total transaction amount of correctly detected fraudulent 
-            transactions.
-        """
+
         # Ensure X is a DataFrame
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
         y_pred = estimator.predict(X)
         amount = X.iloc[:, -1]  # last column as transaction value
         caught_value = amount[(y == 1) & (y_pred == 1)].sum()
-        return caught_value
+        innocent_flagged = amount[(y == 0) & (y_pred == 1)].sum()
+        return caught_value - innocent_flagged
     
     @staticmethod
     def rel_net_value_scorer(
