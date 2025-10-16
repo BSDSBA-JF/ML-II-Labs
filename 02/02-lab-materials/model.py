@@ -16,6 +16,10 @@ from sklearn.metrics import (
     make_scorer, precision_score, recall_score, f1_score
 )
 
+import dice_ml as dice
+from dice_ml import Data, Model, Dice
+from dice_ml.utils import helpers
+
 # imbalanced-learn
 from imblearn.pipeline import Pipeline as ImbPipeline
 from imblearn.over_sampling import SMOTE, ADASYN, RandomOverSampler
@@ -85,6 +89,9 @@ class WhiteBox:
             Returns the fitted instance.
         """
         self._model_.fit(X, y)
+        self.feature_names = list(X.columns) if isinstance(X, pd.DataFrame) else [f'Feature_{i}' for i in range(X.shape[1])]
+        self.training_df = X.copy()
+        self.training_df["target"] = y
         return self
 
     def predict(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
@@ -103,7 +110,99 @@ class WhiteBox:
         """
         check_is_fitted(self._model_)
         return self._model_.predict(X)
+    
+    def treeshap(self, X_explain: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
+        """
+        Calculate SHAP values for tree-based models (TreeSHAP).
 
+        TreeSHAP is a fast and exact method for computing SHAP values for
+        tree-based models, explaining the contribution of each feature to the
+        model's output (logit space, often log-odds for classification).
+
+        Parameters
+        ----------
+        X_explain : array-like of shape (n_samples, n_features)
+            Data for which to calculate SHAP values. Should be feature data, 
+            not the target variable.
+
+        Returns
+        -------
+        shap_values : ndarray of shape (n_samples, n_features) or 
+                      (n_samples, n_classes, n_features)
+            The SHAP values, where the last dimension corresponds to the features.
+            For binary classification, it often returns (n_samples, 2, n_features), 
+            but for interpretation, the positive class (index 1) is typically used.
+        """
+
+        explainer = shap.TreeExplainer(self._model_)
+        X_explain = pd.DataFrame(X_explain, columns=self.feature_names)
+
+        shap_values = explainer.shap_values(X_explain)
+        
+        return shap_values
+    
+    def counterfactual(
+        self, 
+        query_instance: Union[np.ndarray, pd.Series, pd.DataFrame], 
+        target_class: int = 0, 
+        num_cfs: int = 5
+    ) -> Optional[pd.DataFrame]:
+        """
+        Generate diverse counterfactual explanations using DiCE.
+
+        A counterfactual explanation shows what the feature values would need 
+        to be changed to in order to change the model's prediction 
+        (e.g., from 'not approved' to 'approved').
+
+        Parameters
+        ----------
+        query_instance : array-like of shape (n_features,) or (1, n_features) 
+            The single instance to explain (the 'factual' example).
+        
+        target_class : int, default=0
+            The desired output class for the counterfactuals to achieve.
+        
+        num_cfs : int, default=5
+            The number of diverse counterfactuals to generate.
+
+        Returns
+        -------
+        counterfactuals : pd.DataFrame or None
+            A DataFrame containing the generated counterfactuals, or None if an
+            error occurs or DiCE fails to find CEs.
+        """
+        
+
+        dice_model = dice.model.Model(model=self._model_, backend="sklearn")
+
+        # DiCE Data - uses the training data for finding viable counterfactuals
+        dice_data = dice.Data(
+            dataframe=self.training_df, 
+            continuous_features=self.feature_names, 
+            outcome_name='target' 
+        )
+
+        explainer = dice.Dice(
+            dice_data, 
+            dice_model, 
+            method='kdtree' 
+        )
+
+        dice_exp = explainer.generate_counterfactuals(
+            query_instance, 
+            total_CFs=num_cfs, 
+            desired_class=target_class, 
+        )
+        
+
+        if dice_exp:
+            return dice_exp.visualize_as_dataframe(
+                show_only_changes=True
+            )
+        else:
+            print("Warning: DiCE could not find any counterfactuals.")
+            return None
+    
 # To Handle Class Imbalance
 class ML2Detector(BaseEstimator, ClassifierMixin):
     """
