@@ -119,6 +119,7 @@ class WhiteBox:
 
         # Save training data (for counterfactuals)
         self.training_df = X.copy()
+        self.training_df.fillna(0, inplace=True)
         self.training_df["target"] = y_encoded
 
         return self
@@ -166,12 +167,20 @@ class WhiteBox:
         """
 
         explainer = shap.TreeExplainer(self._model_)
-        X_explain = self.preprocessor.transform(X_explain)
-        X_explain = pd.DataFrame(X_explain, columns=feature_names)
-
         shap_values = explainer.shap_values(X_explain)
         
         return shap_values
+    
+    def predict_proba(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:
+        """
+        Predict class probabilities for input samples.
+        """
+        
+        # Transform X using the fitted preprocessor
+        X_transformed = self.preprocessor.transform(X)
+        
+        # Predict probabilities using the transformed features
+        return self._model_.predict_proba(X_transformed)
     
     def counterfactual(
         self, 
@@ -205,12 +214,13 @@ class WhiteBox:
         """
         
 
-        dice_model = dice.model.Model(model=self._model_, backend="sklearn")
+        dice_model = dice.model.Model(model=self, backend="sklearn")
 
         # DiCE Data - uses the training data for finding viable counterfactuals
         dice_data = dice.Data(
             dataframe=self.training_df, 
-            continuous_features=self.feature_names, 
+            continuous_features=self.numerical_columns,
+            categorical_features=self.categorical_columns, 
             outcome_name='target' 
         )
 
