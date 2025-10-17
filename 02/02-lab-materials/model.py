@@ -96,8 +96,7 @@ class WhiteBox:
         categorical_cols: Optional[List[str]] = None
     ):
         # Encode target
-        self.label_encoder = LabelEncoder()
-        y_encoded = self.label_encoder.fit_transform(y)
+        y_encoded = y.map({'Healthy': 0, 'At Risk': 1}).values
 
         # Determine columns if not passed
         if numerical_cols is None:
@@ -167,12 +166,52 @@ class WhiteBox:
 
         explainer = shap.TreeExplainer(self._model_)
         X_explain = self.preprocessor.transform(X_explain)
-        X_explain = pd.DataFrame(X_explain, columns=feature_names)
+        #X_explain = pd.DataFrame(X_explain, columns=self.feature_names)
 
         shap_values = explainer.shap_values(X_explain)
         
         return shap_values
-    
+
+    def explain_prediction(
+        self,
+        instance: pd.DataFrame,
+        class_idx: int = 1
+    ):
+        """
+        Generate a SHAP waterfall plot for a single instance.
+
+        Parameters
+        ----------
+        instance : pd.DataFrame
+            Single-row DataFrame containing the instance to explain.
+        feature_names : list, optional
+            List of feature names. If None, uses self.feature_names.
+        class_idx : int, default=1
+            Index of the class to explain (typically 1 for positive class).
+        """
+
+        # TreeExplainer
+        explainer = shap.TreeExplainer(self._model_)
+        X_transformed = self.preprocessor.transform(instance)
+
+        # SHAP values and expected value
+        shap_values = explainer.shap_values(X_transformed)
+        expected_values = explainer.expected_value
+
+        # Pick class
+        shap_vals_class = shap_values[0, :, class_idx]
+        base_value = expected_values[class_idx]
+
+        # Waterfall plot
+        shap.waterfall_plot(
+            shap.Explanation(
+                values=shap_vals_class,
+                base_values=base_value,
+                data=X_transformed.values[0],
+                feature_names=self.feature_names
+            )
+        )
+
     def counterfactual(
         self, 
         query_instance: Union[np.ndarray, pd.Series, pd.DataFrame], 
