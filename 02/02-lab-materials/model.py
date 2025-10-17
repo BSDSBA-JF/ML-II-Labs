@@ -107,7 +107,7 @@ class WhiteBox:
         # Preprocess
         self.preprocessor = self._make_preprocessor(numerical_cols, categorical_cols)
         X_transformed = self.preprocessor.fit_transform(X)
-
+        
         # Fit model
         self._model_.fit(X_transformed, y_encoded)
 
@@ -116,7 +116,7 @@ class WhiteBox:
             f'Feature_{i}' for i in range(X_transformed.shape[1])
         ]
 
-        # Save training data (for counterfactuals)
+        # # Save training data (for counterfactuals)
         self.training_df = X.copy()
         self.training_df["target"] = y_encoded
 
