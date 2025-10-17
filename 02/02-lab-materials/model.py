@@ -1,42 +1,26 @@
-# model.py
-from typing import Iterable, Optional, Union, Tuple, List
+# Standard library
+from typing import Optional, Union, List, Iterable
 
+# Data manipulation
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
+
+# Machine learning: scikit-learn
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.compose import ColumnTransformer, make_column_selector as selector
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline as SklearnPipeline
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils.validation import check_is_fitted
 
-from sklearn.metrics import (
-    make_scorer, precision_score, recall_score, f1_score
-)
-
-import dice_ml as dice
-from dice_ml import Data, Model, Dice
-from dice_ml.utils import helpers
-
-# imbalanced-learn
+# Imbalanced-learn
 from imblearn.pipeline import Pipeline as ImbPipeline
-from imblearn.over_sampling import SMOTE, ADASYN, RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler, ClusterCentroids
-from imblearn.combine import SMOTEENN, SMOTETomek
-from imblearn.ensemble import BalancedRandomForestClassifier, EasyEnsembleClassifier
-from imblearn.base import BaseSampler
+from imblearn.over_sampling import SMOTE
+from imblearn.under_sampling import ClusterCentroids
 
+# Explainable AI
 import shap
-import numpy as np
-import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.inspection import permutation_importance
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, OneHotEncoder
-from sklearn.pipeline import Pipeline
-from alibi.explainers import Counterfactual
+import dice_ml as dice
 
 class WhiteBox:
     """
@@ -254,6 +238,15 @@ class WhiteBox:
             A DataFrame containing the generated counterfactuals, or None if an
             error occurs or DiCE fails to find CEs.
         """
+        actionable_columns = [
+            'feeding_type',
+            'feeding_frequency_per_day',
+            'weight_kg',
+            'temperature_c',
+            'oxygen_saturation',
+            'urine_output_count',
+            'stool_count',
+        ]
         
 
         dice_model = dice.model.Model(model=self, backend="sklearn")
@@ -276,6 +269,7 @@ class WhiteBox:
             query_instance, 
             total_CFs=num_cfs, 
             desired_class=target_class, 
+            features_to_vary=actionable_columns
         )
         
 
