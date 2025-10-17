@@ -80,7 +80,7 @@ class WhiteBox:
         
         preprocessor = ColumnTransformer(
             transformers=[
-                ('num', StandardScaler(), numerical_cols),
+                ('num', 'passthrough', numerical_cols),
                 ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_cols)
             ],
             remainder='drop'
@@ -166,7 +166,8 @@ class WhiteBox:
         """
 
         explainer = shap.TreeExplainer(self._model_)
-        X_explain = pd.DataFrame(X_explain, columns=self.feature_names)
+        X_explain = self.preprocessor.transform(X_explain)
+        X_explain = pd.DataFrame(X_explain, columns=feature_names)
 
         shap_values = explainer.shap_values(X_explain)
         
