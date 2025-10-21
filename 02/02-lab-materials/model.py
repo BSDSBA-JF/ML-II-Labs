@@ -22,7 +22,7 @@ from imblearn.under_sampling import ClusterCentroids
 import shap
 import dice_ml as dice
 
-class WhiteBox:
+class WhiteBox(BaseEstimator, ClassifierMixin):
     """
     A white-box wrapper around the RandomForestClassifier.
 
