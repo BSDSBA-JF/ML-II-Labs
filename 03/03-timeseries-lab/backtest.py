@@ -207,6 +207,7 @@ class Backtest:
 
         return self.trade_log
 
+
     # ================================END===================================
 
     def compute_trade_metrics(self, annual_risk_free_rate: float = 0.02):
