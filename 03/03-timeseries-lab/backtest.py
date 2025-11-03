@@ -140,8 +140,72 @@ class Backtest:
     # FEEL FREE TO EDIT THE METHOD BELOW TO INCLUDE YOUR OWN TRADING STRATEGY
     # ENSURE YOU INCLUDE DOCSTRINGS AND TYPE ANNOTATIONS
     def custom_strategy(self, actual_prices, predicted_prices):
-        # Make sure to use the _check_input_instance method for your two inputs
-        return None
+        """
+        Strategy:
+        - Buy as many shares as possible on the first day
+        - Hold until the last day
+        - Sell all shares on the last day
+        """
+        # Reset before running
+        self._reset()
+        actual_prices = self._check_input_instance(actual_prices)
+
+        first_price = actual_prices[0]
+        last_price = actual_prices[-1]
+
+        # ---- BUY on first day ----
+        self.position = int(self.cash / (first_price * (1 + self.transaction_cost)))
+        cost = self.position * first_price * (1 + self.transaction_cost)
+        self.cash -= cost
+        self.entry_price = first_price
+
+        portfolio_value = self.cash + self.position * first_price
+        self.portfolio_values.append(portfolio_value)
+        self.trade_log.append({
+            "Actual Price": first_price,
+            "Predicted Price": first_price,
+            "Action": "BUY",
+            "Shares Traded": self.position,
+            "Position": self.position,
+            "Cash": self.cash,
+            "Portfolio Value": portfolio_value
+        })
+
+        # ---- HOLD until last day ----
+        for price in actual_prices[1:-1]:
+            portfolio_value = self.cash + self.position * price
+            self.portfolio_values.append(portfolio_value)
+            self.trade_log.append({
+                "Actual Price": price,
+                "Predicted Price": price,
+                "Action": "HOLD",
+                "Shares Traded": 0,
+                "Position": self.position,
+                "Cash": self.cash,
+                "Portfolio Value": portfolio_value
+            })
+
+        # ---- SELL on last day ----
+        shares_sold = self.position  # log actual sold shares
+        revenue = shares_sold * last_price * (1 - self.transaction_cost)
+        profit = revenue - (shares_sold * self.entry_price * (1 + self.transaction_cost))
+        self.trades.append(profit)
+        self.cash += revenue
+        self.position = 0
+
+        portfolio_value = self.cash
+        self.portfolio_values.append(portfolio_value)
+        self.trade_log.append({
+            "Actual Price": last_price,
+            "Predicted Price": last_price,
+            "Action": "SELL",
+            "Shares Traded": shares_sold,
+            "Position": self.position,
+            "Cash": self.cash,
+            "Portfolio Value": portfolio_value
+        })
+
+        return self.trade_log
 
     # ================================END===================================
 
