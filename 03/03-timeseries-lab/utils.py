@@ -234,8 +234,9 @@ class PortfolioEvaluator:
             print("Allocation should either be 'equal' or a dictionary of weights.")
             return None
 
-        if sum(weights.values()) != 1.0:
-            raise ValueError("Weights should sum to 1.0.")
+        if abs(sum(weights.values()) - 1.0) > 0.01:
+            raise ValueError("Weights should sum to 1.0 (within a tolerance of 0.01).")
+
 
         # Get portfolio values over time
         max_length = max(
