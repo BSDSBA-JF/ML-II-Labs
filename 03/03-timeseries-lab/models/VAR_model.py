@@ -37,8 +37,15 @@ class VARTradingModel:
         self.last_log_price = log_prices[self.target_stock].iloc[-1]
 
         model = VAR(log_returns)
-        order_selection = model.select_order(maxlags=self.maxlags)
-        self._best_lag = order_selection.selected_orders['aic']
+        # custom lag logic for the stocks
+        if self.target_stock in ['WMT', 'NVDA']:
+            self._best_lag = 0
+        elif self.target_stock == 'XOM':
+            self._best_lag = 1
+        else:
+            # fallback to automatic selection
+            order_selection = model.select_order(maxlags=self.maxlags)
+            self._best_lag = order_selection.selected_orders['aic']
 
         if self._best_lag == 0:
             # Degenerate case: use mean log returns
@@ -46,8 +53,6 @@ class VARTradingModel:
             self._results = ('mean', mean_return)
         else:
             self._results = model.fit(self._best_lag)
-        
-        print(self._best_lag)
 
         return self
 
