@@ -3,36 +3,30 @@ from __future__ import annotations
 from typing import Optional
 import numpy as np
 from sklearn.base import BaseEstimator, RegressorMixin
-from statsmodels.tsa.arima.model import ARIMA
 
 
 class XOMTradingModel(BaseEstimator, RegressorMixin):
     """
-    Trading model for XOM using an AR(1)-type model implemented via ARIMA(1,0,0).
+    Trading model for XOM using a VAR(1)-style forecasting structure.
 
-    Random Walk with Drift aside, a VAR(1)-style dynamic (here approximated by
-    ARIMA(1,0,0) on the univariate series) achieved the best performance for XOM.
+    Although VAR is traditionally multivariate, XOM behaved consistently with a
+    first-order lag dependence. Therefore, the VAR(1) logic is implemented as an
+    AR(1) recurrence using the learned lag coefficient and intercept.
     """
 
-    def __init__(self, order: tuple[int, int, int] = (1, 0, 0)):
-        """
-        Parameters
-        ----------
-        order : tuple[int, int, int]
-            The (p, d, q) order of the ARIMA model. Default is (1, 0, 0),
-            corresponding to an AR(1) process.
-        """
-        self.order = order
-        self._results: Optional[object] = None
+    def __init__(self):
+        self.coef_: Optional[float] = None      # lag coefficient
+        self.intercept_: Optional[float] = None # constant term
+        self.last_value_: Optional[float] = None
 
     def fit(self, X: np.ndarray, y: Optional[np.ndarray] = None):
         """
-        Fit ARIMA(1,0,0) (or specified order) on the series.
+        Fit a first-order autoregressive model (VAR(1) equivalent on univariate data).
 
         Parameters
         ----------
         X : np.ndarray
-            Input array; if y is None, this is treated as the target series.
+            Input time series.
         y : np.ndarray, optional
             Target series. If None, X is used.
         """
@@ -41,40 +35,44 @@ class XOMTradingModel(BaseEstimator, RegressorMixin):
         else:
             series = np.asarray(y, dtype=float).ravel()
 
-        if series.size == 0:
-            raise ValueError("Empty series provided to XOMTradingModel.fit().")
+        if len(series) < 2:
+            raise ValueError("Series must contain at least two observations.")
 
-        model = ARIMA(series, order=self.order)
-        self._results = model.fit()
+        # Construct VAR(1) lag regression:  y[t] = intercept + coef * y[t-1]
+        y_target = series[1:]
+        y_lag = series[:-1]
+
+        # Ordinary Least Squares for AR(1)
+        A = np.column_stack([np.ones_like(y_lag), y_lag])
+        params = np.linalg.lstsq(A, y_target, rcond=None)[0]
+
+        self.intercept_, self.coef_ = float(params[0]), float(params[1])
+        self.last_value_ = float(series[-1])
+
         return self
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def forecast(self, n_steps: int) -> np.ndarray:
         """
-        Forecast len(X) steps ahead.
+        Forecast future values recursively using VAR(1) dynamics.
 
         Parameters
         ----------
-        X : np.ndarray
-            Dummy input; only its length is used to determine forecast horizon.
+        n_steps : int
+            Number of future steps to forecast.
 
         Returns
         -------
         np.ndarray
-            Forecasts of length len(X).
+            Forecast array of length n_steps.
         """
-        if self._results is None:
-            raise RuntimeError("Call fit() before predict().")
+        if self.coef_ is None or self.intercept_ is None or self.last_value_ is None:
+            raise RuntimeError("Call fit() before forecast().")
 
-        n_steps = int(len(np.asarray(X)))
-        if n_steps <= 0:
-            return np.array([], dtype=float)
+        forecasts = []
+        value = self.last_value_
 
-        fc = self._results.forecast(steps=n_steps)
-        return np.asarray(fc, dtype=float)
+        for _ in range(n_steps):
+            value = self.intercept_ + self.coef_ * value
+            forecasts.append(value)
 
-    def fit_predict(self, X: np.ndarray, y: Optional[np.ndarray] = None) -> np.ndarray:
-        """
-        Fit the model then forecast len(X) steps ahead.
-        """
-        self.fit(X, y)
-        return self.predict(np.zeros_like(X))
+        return np.asarray(forecasts, dtype=float)
