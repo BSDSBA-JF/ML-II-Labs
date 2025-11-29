@@ -6,22 +6,22 @@ from collections import defaultdict  # for default float dicts
 from tqdm import tqdm    # for progress bars
 import networkx as nx    # to build graphs
 
-def create_mapping():
+def create_mapping() -> Dict[str, str]:
     """Creates a mapping from avatar image URLs to English character names."""
-    image_english_mapping = {}
+    image_english_mapping: Dict[str, str] = {}
     url = "https://api.yshelper.com/ys/getAbyssRank.php"
     data = requests.get(url).json()
 
     for char_info in data["has_list"]:
-        name = char_info["name"]
-        image_link = char_info["avatar"]
+        name: str = char_info["name"]
+        image_link: str = char_info["avatar"]
 
         # Match Chinese name with English equivalent
         cn_to_ens = data["select_list"]
         for cn_to_en in cn_to_ens:
-            cn = cn_to_en["title"][:-2]
+            cn: str = cn_to_en["title"][:-2]
             if cn == name:
-                en = cn_to_en["value"]
+                en: str = cn_to_en["value"]
                 image_english_mapping[image_link] = en
                 break  # Stop once matched
 
@@ -35,7 +35,7 @@ def create_mapping():
         }
     )
 
-    # Add nefer too
+    # Add Nefer too
     image_english_mapping.update(
         {
             (
@@ -46,50 +46,62 @@ def create_mapping():
 
     return image_english_mapping
 
-image_english_mapping = create_mapping()
+
+image_english_mapping: Dict[str, str] = create_mapping()
 
 
-def get_character_names():
+def get_character_names() -> List[str]:
     """Get the character names"""
     url = "https://api.yshelper.com/ys/getAbyssRank.php"
     data = requests.get(url).json()
 
-    char_names = []
+    char_names: List[str] = []
     for char_json in data["select_list"][1:]:
         char_names.append(char_json["value"])
 
     return char_names
 
-char_names = get_character_names()
 
-def get_team_usage_per_char(char_name, version):
+char_names: List[str] = get_character_names()
+
+
+def get_team_usage_per_char(char_name: str, version: int) -> Optional[List[dict]]:
     """
     Given the character name and version, return the top 100 or fewer
     teams that include the character (from result[3]).
     """
-    base_url = "https://api.yshelper.com/ys/getAbyssRank.php"
-    url = f"{base_url}?star=all&role={quote(char_name)}" f"&lang=en&version={version}"
+    base_url: str = "https://api.yshelper.com/ys/getAbyssRank.php"
+    url: str = (
+        f"{base_url}?star=all&role={quote(char_name)}"
+        f"&lang=en&version={version}"
+    )
 
-    team_data = requests.get(url).json()["result"][3]
+    team_data: Optional[List[dict]] = requests.get(url).json().get("result", [])[3]
+    return team_data
 
-def get_team_per_version(version, char_names):
-    """Given the version and a list of character names, 
-    get all the possible teams in a list with each elemenet as a json str"""
-    possible_teams = set()
 
-    # loop over all the characters
+def get_team_per_version(version: int, char_names: List[str]) -> List[str]:
+    """
+    Given the version and a list of character names, 
+    get all the possible teams in a list with each element as a JSON string.
+    """
+    possible_teams: set[str] = set()
+
+    # Loop over all the characters
     for char in tqdm(char_names, desc="Fetching team usage"):
-        # get the teams
-        char_team_usage = get_team_usage_per_char(char, version)
+        # Get the teams
+        char_team_usage: Optional[List[dict]] = get_team_usage_per_char(char, version)
 
-        # if there are no teams, then skip this character
+        # If there are no teams, then skip this character
         if not char_team_usage:
             continue
 
-        # add to a set all the possible teams
+        # Add to a set all the possible teams
         for team in char_team_usage:
             possible_teams.add(json.dumps(team, sort_keys=True))
+
     return list(possible_teams)
+
 
 def get_use_has_cooccur(teams, image_english_mapping):
     """
