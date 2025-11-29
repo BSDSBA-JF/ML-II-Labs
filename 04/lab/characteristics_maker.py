@@ -227,8 +227,26 @@ def get_characteristics(
     df_merged = df_merged.merge(df_owns, on="Name")
 
     # Clean
-    df_merged.rename(columns={"line_count": "Line Count"}, inplace=True)
+    df_merged.rename(columns={"line_count": "Line Count", "Surviv­ability":"Survivability"}, inplace=True)
 
+    # Get the characters people will get by just playing the game
+    standard_5_stars = [
+        "Dehya", "Jean", "Mona", "Diluc", "Qiqi", 
+        "Keqing", "Tighnari", "Yumemizuki Mizuki",
+    ]
+
+    free_characters = [
+    "Lumine", "Barbara", "Kaeya",
+    "Xiangling", "Collei", "Kachina", "Aino"
+    ]
+
+    standard_or_free = standard_5_stars + free_characters
+
+
+    df_merged["Free"] = df_merged["Name"].apply(lambda x: 1 if x in standard_5_stars else 0)
+
+
+    
     # Save merged DataFrame
     df_merged.to_csv(filepath, index=False)
 

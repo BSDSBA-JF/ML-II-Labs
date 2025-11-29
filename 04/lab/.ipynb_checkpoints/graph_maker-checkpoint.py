@@ -142,42 +142,40 @@ def get_character_names() -> List[str]:
 char_names: List[str] = get_character_names()
 
 
-def get_team_usage_per_char(char_name: str, version: int) -> Optional[List[dict]]:
+def get_team_usage_per_char(char_name: str, version: int, mode: str = "abyss") -> Optional[List[dict]]:
     """
-    Given the character name and version, return the top 100 or fewer
-    teams that include the character (from result[3]).
+    Fetch teams for a character depending on the mode.
+    mode: "abyss" or "stygian"
     """
-    base_url: str = "https://api.yshelper.com/ys/getAbyssRank.php"
-    url: str = (
-        f"{base_url}?star=all&role={quote(char_name)}"
-        f"&lang=en&version={version}"
-    )
+    if mode == "abyss":
+        base_url = "https://api.yshelper.com/ys/getAbyssRank.php"
+        url = f"{base_url}?star=all&role={quote(char_name)}&lang=en&version={version}"
+    elif mode == "stygian":
+        base_url = "https://api.lelaer.com/ys/getAbyssRank2.php"
+        url = f"{base_url}?star=all&role={quote(char_name)}&lang=en&version={version}"
+    else:
+        raise ValueError("mode must be 'abyss' or 'stygian'")
 
     team_data: Optional[List[dict]] = requests.get(url).json().get("result", [])[3]
     return team_data
 
 
-def get_team_per_version(version: int, char_names: List[str]) -> List[str]:
+def get_team_per_version(version: int, char_names: List[str], mode: str = "abyss") -> List[str]:
     """
     Given the version and a list of character names, 
     get all the possible teams in a list with each element as a JSON string.
     """
     possible_teams: set[str] = set()
 
-    # Loop over all the characters
-    for char in tqdm(char_names, desc="Fetching team usage"):
-        # Get the teams
-        char_team_usage: Optional[List[dict]] = get_team_usage_per_char(char, version)
-
-        # If there are no teams, then skip this character
+    for char in tqdm(char_names, desc=f"Fetching team usage ({mode})"):
+        char_team_usage: Optional[List[dict]] = get_team_usage_per_char(char, version, mode=mode)
         if not char_team_usage:
             continue
-
-        # Add to a set all the possible teams
         for team in char_team_usage:
             possible_teams.add(json.dumps(team, sort_keys=True))
 
     return list(possible_teams)
+
 
 
 def get_use_has_cooccur(teams, image_english_mapping):
@@ -272,7 +270,7 @@ def get_graph(co_occur_use, co_occur_has):
 
     return G
 
-def create_graph(version, char_names=char_names, image_english_mapping=image_english_mapping):
+def create_graph(version: int, char_names=char_names, image_english_mapping=image_english_mapping, mode: str = "abyss"):
     """
     Generate a co-occurrence graph for a specific game version with both
     usage-based and ownership-based edge weights.
@@ -306,10 +304,6 @@ def create_graph(version, char_names=char_names, image_english_mapping=image_eng
     """
 
     # Fetch all possible teams for the version
-    possible_teams = get_team_per_version(version, char_names)
-
-    # Compute co-occurrence dictionaries (use & has)
+    possible_teams = get_team_per_version(version, char_names, mode=mode)
     co_occur_use, co_occur_has = get_use_has_cooccur(possible_teams, image_english_mapping)
-
-    # Build the graph with both weights
     return get_graph(co_occur_use, co_occur_has)
