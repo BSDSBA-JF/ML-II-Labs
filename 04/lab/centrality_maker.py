@@ -124,13 +124,20 @@ def compute_centrality_matrices(
 
         # Betweenness
         for u, v, data in G.edges(data=True):
-            if "weight" in data and data["weight"] != 0:
-                data["distance"] = 1.0 / data["weight"]
+            if "weight_use" in data and data["weight_use"] != 0:
+                data["weight_betweeenness"] = 1.0 / data["weight_use"]
             else:
-                data["distance"] = float("inf")
-        betweenness_cent = nx.betweenness_centrality(G, weight="distance", normalized=True)
+                data["weight_betweeenness"] = float("inf")
+        betweenness_cent = nx.betweenness_centrality(G, weight="weight_betweeenness", normalized=True)
 
-        eigenvector_cent = nx.eigenvector_centrality(G, weight="weight", max_iter=500)
+        # Eigenvector
+        # for u, v, data in G.edges(data=True):
+        #     if "weight_has" in data and data["weight_has"] != 0:
+        #         data["co_occur_rate"] = data["weight_use"] / data["weight_has"]
+        #     else:
+        #         data["co_occur_rate"] = 0
+
+        eigenvector_cent = nx.eigenvector_centrality(G, weight="weight_use", max_iter=500)
 
         degree_matrix[phase] = degree_cent
         betweenness_matrix[phase] = betweenness_cent
