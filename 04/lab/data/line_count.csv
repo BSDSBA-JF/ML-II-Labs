@@ -1,0 +1,106 @@
+name,Element,Weapon Type,region,star,Ascension Bonus,bodyType,Fielder-Type,DPS,Support,Survivability,use,own,line_count,pull_number
+Kamisato Ayaka,Cryo,Sword,INAZUMA,5,Critical Damage,GIRL,On-Field,1,0,0,1164,36258,959,146083.482
+Jean,Anemo,Sword,MONDSTADT,5,Healing Bonus,LADY,Off-Field,0,0,1,681,72780,809,250581.54
+Lisa,Electro,Catalyst,MONDSTADT,4,Elemental Mastery,LADY,Off-Field,1,0,0,18,77430,841,400003.38
+Barbara,Hydro,Catalyst,MONDSTADT,4,HP%,GIRL,Off-Field,0,0,1,1398,77430,788,480762.87
+Kaeya,Cryo,Sword,MONDSTADT,4,Energy Recharge,MALE,Off-Field,1,0,0,120,77430,1395,367792.5
+Diluc,Pyro,Claymore,MONDSTADT,5,Critical Rate,MALE,On-Field,1,0,0,270,71487,701,386816.157
+Razor,Electro,Claymore,MONDSTADT,4,Physical Damage Bonus,BOY,On-Field,1,0,0,18,73572,436,380367.24
+Amber,Pyro,Bow,MONDSTADT,4,Attack%,GIRL,Off-Field,1,0,0,75,77430,779,250873.2
+Venti,Anemo,Bow,MONDSTADT,5,Energy Recharge,BOY,Off-Field,1,1,0,204,28662,1376,113042.928
+Xiangling,Pyro,Polearm,LIYUE,4,Elemental Mastery,GIRL,Off-Field,1,0,0,10191,77430,781,489977.04
+Beidou,Electro,Claymore,LIYUE,4,Electro Damage Bonus,LADY,Off-Field,1,0,1,126,75966,952,372765.162
+Xingqiu,Hydro,Sword,LIYUE,4,Attack%,BOY,Off-Field,1,0,1,17385,77394,623,516063.192
+Xiao,Anemo,Polearm,LIYUE,5,Critical Rate,BOY,On-Field,1,0,0,564,23013,801,119828.691
+Ningguang,Geo,Catalyst,LIYUE,4,Geo Damage Bonus,LADY,On-Field,1,0,0,15,74634,1020,477657.6
+Klee,Pyro,Catalyst,MONDSTADT,5,Pyro Damage Bonus,LOLI,On-Field,1,0,0,471,13842,932,32210.334
+Zhongli,Geo,Polearm,LIYUE,5,Geo Damage Bonus,MALE,Off-Field,0,1,1,14244,60894,1271,79832.034
+Fischl,Electro,Bow,MONDSTADT,4,Attack%,GIRL,Off-Field,1,0,0,3075,77004,495,496906.812
+Bennett,Pyro,Sword,MONDSTADT,4,Energy Recharge,BOY,Off-Field,0,1,1,57123,77430,713,497023.17
+Tartaglia,Hydro,Bow,FATUI,5,Hydro Damage Bonus,MALE,On-Field,1,0,0,696,20949,760,79836.639
+Noelle,Geo,Claymore,MONDSTADT,4,Defense%,GIRL,On-Field,1,0,1,126,77430,989,518393.85
+Qiqi,Cryo,Sword,LIYUE,5,Healing Bonus,LOLI,Off-Field,0,0,1,75,71106,254,332776.08
+Chongyun,Cryo,Claymore,LIYUE,4,Attack%,BOY,Off-Field,1,1,0,45,75594,742,408434.382
+Ganyu,Cryo,Bow,LIYUE,5,Critical Damage,GIRL,On-Field,1,0,0,474,25782,633,96141.078
+Albedo,Geo,Sword,MONDSTADT,5,Geo Damage Bonus,BOY,Off-Field,1,0,0,84,8433,1434,29861.253
+Diona,Cryo,Bow,MONDSTADT,4,Cryo Damage Bonus,LOLI,Off-Field,0,0,1,2688,76719,855,498289.905
+Mona,Hydro,Catalyst,MONDSTADT,5,Energy Recharge,GIRL,Off-Field,0,1,0,2205,73683,968,250006.419
+Keqing,Electro,Sword,LIYUE,5,Critical Damage,GIRL,On-Field,1,0,0,765,72846,750,387395.028
+Sucrose,Anemo,Catalyst,MONDSTADT,4,Anemo Damage Bonus,GIRL,Off-Field,0,1,0,3774,76236,755,426845.364
+Xinyan,Pyro,Claymore,LIYUE,4,Attack%,GIRL,Off-Field,0,0,1,9,74130,687,74130
+Rosaria,Cryo,Polearm,MONDSTADT,4,Attack%,LADY,Off-Field,1,0,0,258,76470,333,422190.87
+Hu Tao,Pyro,Polearm,LIYUE,5,Critical Damage,GIRL,On-Field,1,0,0,3270,32397,1000,97223.397
+Kaedehara Kazuha,Anemo,Sword,INAZUMA,5,Elemental Mastery,BOY,Off-Field,0,1,0,15219,69219,1163,94622.373
+Yanfei,Pyro,Catalyst,LIYUE,4,Pyro Damage Bonus,GIRL,On-Field,1,0,0,186,76383,680,459443.745
+Yoimiya,Pyro,Bow,INAZUMA,5,Critical Rate,GIRL,On-Field,1,0,0,1662,23445,1165,64356.525
+Thoma,Pyro,Polearm,INAZUMA,4,Attack%,MALE,Off-Field,0,0,1,987,75570,1025,489240.18
+Eula,Cryo,Claymore,MONDSTADT,5,Critical Damage,LADY,On-Field,1,0,0,174,11592,662,64579.032
+Raiden Shogun,Electro,Polearm,INAZUMA,5,Energy Recharge,LADY,On-Field,1,1,0,3507,64386,940,161029.386
+Sayu,Anemo,Claymore,INAZUMA,4,Elemental Mastery,LOLI,Off-Field,0,0,1,33,73146,710,359439.444
+Sangonomiya Kokomi,Hydro,Catalyst,INAZUMA,5,Hydro Damage Bonus,GIRL,Off-Field,0,1,1,6927,30594,819,36100.92
+Gorou,Geo,Bow,INAZUMA,4,Geo Damage Bonus,BOY,Off-Field,0,1,0,201,75165,810,484964.58
+Kujou Sara,Electro,Bow,INAZUMA,4,Attack%,LADY,Off-Field,0,1,0,600,75468,505,498843.48
+Arataki Itto,Geo,Claymore,INAZUMA,5,Critical Rate,MALE,On-Field,1,0,0,132,10257,1365,55418.571
+Yae Miko,Electro,Catalyst,INAZUMA,5,Critical Rate,LADY,Off-Field,1,0,0,717,29538,1327,117945.234
+Shikanoin Heizou,Anemo,Catalyst,INAZUMA,4,Anemo Damage Bonus,BOY,On-Field,1,0,0,21,75210,826,472694.85
+Yelan,Hydro,Bow,LIYUE,5,Critical Rate,LADY,Off-Field,1,0,0,16695,54702,954,118758.042
+Kirara,Dendro,Sword,INAZUMA,4,HP%,GIRL,Off-Field,0,0,1,459,74748,482,359388.384
+Aloy,Cryo,Bow,RANGER,5,Cryo Damage Bonus,GIRL,On-Field,1,0,0,12,19206,0,19206
+Shenhe,Cryo,Polearm,LIYUE,5,Attack%,LADY,Off-Field,0,1,0,2103,22806,479,57425.508
+Yun Jin,Geo,Polearm,LIYUE,4,Energy Recharge,GIRL,Off-Field,0,1,0,117,73437,718,468601.497
+Kuki Shinobu,Electro,Sword,INAZUMA,4,HP%,GIRL,Off-Field,0,0,1,16521,76389,679,418917.276
+Kamisato Ayato,Hydro,Sword,INAZUMA,5,Critical Damage,MALE,On-Field,1,0,0,498,18468,653,87926.148
+Collei,Dendro,Bow,SUMERU,4,Attack%,GIRL,Off-Field,1,0,0,873,77430,993,436163.19
+Dori,Electro,Claymore,SUMERU,4,HP%,LOLI,Off-Field,0,0,1,219,75834,458,516202.038
+Tighnari,Dendro,Bow,SUMERU,5,Dendro Damage Bonus,BOY,On-Field,1,0,0,1206,74100,1333,270761.4
+Nilou,Hydro,Sword,SUMERU,5,HP%,GIRL,Off-Field,1,1,0,7077,23643,897,50406.876
+Cyno,Electro,Polearm,SUMERU,5,Critical Damage,BOY,On-Field,1,0,0,285,12618,1377,61260.39
+Candace,Hydro,Polearm,SUMERU,4,HP%,LADY,Off-Field,0,1,0,30,76812,502,430147.2
+Nahida,Dendro,Catalyst,SUMERU,5,Elemental Mastery,LOLI,Off-Field,1,1,0,43650,68082,1697,121390.206
+Layla,Cryo,Sword,SUMERU,4,HP%,GIRL,Off-Field,0,0,1,672,75300,1172,410686.2
+Wanderer,Anemo,Catalyst,SUMERU,5,Critical Rate,BOY,On-Field,1,0,0,1176,26565,736,159230.61
+Faruzan,Anemo,Bow,SUMERU,4,Attack%,GIRL,Off-Field,0,1,0,1521,75882,800,521612.868
+Yaoyao,Dendro,Polearm,LIYUE,4,HP%,LOLI,Off-Field,0,0,1,2619,77058,257,420428.448
+Alhaitham,Dendro,Sword,SUMERU,5,Dendro Damage Bonus,MALE,On-Field,1,0,0,2394,26184,1226,56138.496
+Dehya,Pyro,Claymore,SUMERU,5,HP%,LADY,Off-Field,1,0,1,627,68676,1172,246409.488
+Mika,Cryo,Polearm,MONDSTADT,4,HP%,BOY,Off-Field,0,1,1,117,73098,316,425576.556
+Kaveh,Dendro,Claymore,SUMERU,4,Elemental Mastery,MALE,On-Field,1,0,0,291,72840,1252,338196.12
+Baizhu,Dendro,Catalyst,LIYUE,5,HP%,MALE,Off-Field,0,1,1,4953,19320,555,32303.04
+Lynette,Anemo,Sword,FONTAINE,4,Anemo Damage Bonus,GIRL,Off-Field,1,0,0,129,77328,819,370710.432
+Lyney,Pyro,Bow,FONTAINE,5,Critical Rate,BOY,On-Field,1,0,0,507,9960,1330,41094.96
+Freminet,Cryo,Claymore,FONTAINE,4,Attack%,BOY,On-Field,1,0,0,12,72528,466,435168
+Wriothesley,Cryo,Catalyst,FONTAINE,5,Critical Damage,MALE,On-Field,1,0,0,1725,13389,978,77321.475
+Neuvillette,Hydro,Catalyst,FONTAINE,5,Critical Damage,MALE,On-Field,1,0,0,22533,55080,1213,147228.84
+Charlotte,Cryo,Catalyst,FONTAINE,4,Attack%,GIRL,Off-Field,0,0,1,876,74046,700,322766.514
+Furina,Hydro,Sword,FONTAINE,5,Critical Rate,GIRL,Off-Field,1,1,1,52212,74730,1297,222471.21
+Chevreuse,Pyro,Polearm,FONTAINE,4,HP%,GIRL,Off-Field,0,1,1,5292,74346,685,447934.65
+Navia,Geo,Claymore,FONTAINE,5,Critical Damage,LADY,On-Field,1,0,0,1041,28485,1786,78533.145
+Gaming,Pyro,Claymore,LIYUE,4,Attack%,BOY,On-Field,1,0,0,207,75237,389,515599.161
+Xianyun,Anemo,Catalyst,LIYUE,5,Attack%,LADY,Off-Field,0,1,1,1182,30576,519,78121.68
+Chiori,Geo,Sword,INAZUMA,5,Critical Rate,GIRL,Off-Field,1,0,0,699,9261,616,47610.801
+Sigewinne,Hydro,Bow,FONTAINE,5,HP%,LOLI,Off-Field,0,1,1,897,9192,623,19220.472
+Arlecchino,Pyro,Polearm,FATUI,5,Critical Damage,LADY,On-Field,1,0,0,26589,45498,616,109422.69
+Sethos,Electro,Bow,SUMERU,4,Elemental Mastery,BOY,On-Field,1,0,0,12,76470,403,516172.5
+Clorinde,Electro,Sword,FONTAINE,5,Critical Rate,LADY,On-Field,1,0,0,1167,20139,757,62108.676
+Emilie,Dendro,Polearm,FONTAINE,5,Critical Damage,GIRL,Off-Field,1,0,0,1107,11517,434,16665.099
+Kachina,Geo,Polearm,NATLAN,4,Geo Damage Bonus,LOLI,Off-Field,1,0,0,102,77244,792,329831.88
+Kinich,Dendro,Claymore,NATLAN,5,Critical Damage,BOY,On-Field,1,0,0,2406,19725,755,76533
+Mualani,Hydro,Catalyst,NATLAN,5,Critical Rate,GIRL,On-Field,1,0,0,1902,19701,1183,56049.345
+Xilonen,Geo,Sword,NATLAN,5,Defense%,LADY,Off-Field,0,1,1,46416,63108,941,85637.556
+Chasca,Anemo,Bow,NATLAN,5,Critical Rate,LADY,On-Field,1,0,0,2559,24168,826,101239.752
+Ororon,Electro,Bow,NATLAN,4,Attack%,MALE,Off-Field,1,0,0,1554,75405,583,334722.795
+Mavuika,Pyro,Claymore,NATLAN,5,Critical Damage,LADY,On-Field,1,1,0,34599,52989,1311,110535.054
+Citlali,Cryo,Catalyst,NATLAN,5,Elemental Mastery,GIRL,Off-Field,0,1,1,45507,59631,1312,90042.81
+Lan Yan,Anemo,Catalyst,LIYUE,4,Attack%,GIRL,Off-Field,1,0,1,2460,72786,298,342458.13
+Yumemizuki Mizuki,Anemo,Catalyst,INAZUMA,5,Elemental Mastery,GIRL,On-Field,1,0,1,42,58308,620,145303.536
+Iansan,Electro,Polearm,NATLAN,4,Attack%,LOLI,Off-Field,0,1,1,5775,64023,459,262878.438
+Varesa,Electro,Catalyst,NATLAN,5,Critical Rate,GIRL,On-Field,1,0,0,2037,17475,441,31577.325
+Escoffier,Cryo,Polearm,FONTAINE,5,Critical Rate,GIRL,Off-Field,1,1,1,10656,38406,418,46048.794
+Ifa,Anemo,Catalyst,NATLAN,4,Elemental Mastery,MALE,On-Field,0,1,1,48,62658,345,184277.178
+Skirk,Cryo,Sword,OMNI_SCOURGE,5,Critical Damage,GIRL,On-Field,1,0,0,9558,49833,401,97573.014
+Dahlia,Hydro,Sword,MONDSTADT,4,HP%,BOY,Off-Field,0,0,1,813,60294,100,257937.732
+Ineffa,Electro,Polearm,NODKRAI,5,Critical Rate,GIRL,Off-Field,1,0,1,13539,23169,545,24721.323
+Lauma,Dendro,Catalyst,NODKRAI,5,Elemental Mastery,LADY,Off-Field,0,1,0,31950,34119,809,43433.487
+Flins,Electro,Polearm,NODKRAI,5,Critical Damage,MALE,On-Field,1,0,0,15000,27648,427,59111.424
+Aino,Hydro,Claymore,NODKRAI,4,Elemental Mastery,LOLI,Off-Field,1,0,0,22134,76710,430,283366.74
+Nefer,Dendro,Catalyst,NODKRAI,5,Critical Damage,LADY,On-Field,1,0,0,23709,27285,776,38035.29
