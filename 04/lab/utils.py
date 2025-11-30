@@ -81,6 +81,32 @@ class ForecastingMetrics:
         true_direction = np.diff(y_true) > 0
         pred_direction = np.diff(y_pred) > 0
         return np.float32(np.mean(true_direction == pred_direction) * 100)
+    
+    @staticmethod
+    def r2_score(
+        y_true: Union[np.ndarray, pd.Series], y_pred: Union[np.ndarray, pd.Series]
+    ) -> float:
+        """
+        Compute the R-squared (coefficient of determination) between predicted
+        and actual values.
+
+        Parameters
+        ----------
+        y_true : array-like
+            True target values.
+        y_pred : array-like
+            Predicted target values.
+
+        Returns
+        -------
+        float
+            R-squared value.
+        """
+        y_true = np.array(y_true)
+        y_pred = np.array(y_pred)
+        ss_res = np.sum((y_true - y_pred) ** 2)
+        ss_tot = np.sum((y_true - np.mean(y_true)) ** 2)
+        return 1 - ss_res / ss_tot
 
     # =================DELETE THESE COMMENTS AFTER EDITING===================
     # FEEL FREE TO EDIT THE METHOD BELOW TO INCLUDE YOUR OTHER METRICS
@@ -99,5 +125,6 @@ class ForecastingMetrics:
             "RMSE": cls.rmse(y_true, y_pred),
             "MAPE": cls.mape(y_true, y_pred),
             "SMAPE": cls.smape(y_true, y_pred),
-            "Directional Accuracy": cls.direction_accuracy(y_true, y_pred),
+            #"Directional Accuracy": cls.direction_accuracy(y_true, y_pred),
+            "R2": cls.r2_score(y_true, y_pred)
         }
