@@ -1,0 +1,106 @@
+Name,Element,On-Field,Off-Field,DPS,Support,Surviv­ability
+Aino,Hydro,0,1,1,0,0
+Albedo,Geo,0,1,1,0,0
+Alhaitham,Dendro,1,0,1,0,0
+Aloy,Cryo,1,0,1,0,0
+Amber,Pyro,0,1,1,0,0
+Arataki Itto,Geo,1,0,1,0,0
+Arlecchino,Pyro,1,0,1,0,0
+Baizhu,Dendro,0,1,0,1,1
+Barbara,Hydro,0,1,0,0,1
+Beidou,Electro,0,1,1,0,1
+Bennett,Pyro,0,1,0,1,1
+Candace,Hydro,0,1,0,1,0
+Charlotte,Cryo,0,1,0,0,1
+Chasca,Anemo,1,0,1,0,0
+Chevreuse,Pyro,0,1,0,1,1
+Chiori,Geo,0,1,1,0,0
+Chongyun,Cryo,0,1,1,1,0
+Citlali,Cryo,0,1,0,1,1
+Clorinde,Electro,1,0,1,0,0
+Collei,Dendro,0,1,1,0,0
+Cyno,Electro,1,0,1,0,0
+Dahlia,Hydro,0,1,0,0,1
+Dehya,Pyro,0,1,1,0,1
+Diluc,Pyro,1,0,1,0,0
+Diona,Cryo,0,1,0,0,1
+Dori,Electro,0,1,0,0,1
+Emilie,Dendro,0,1,1,0,0
+Escoffier,Cryo,0,1,1,1,1
+Eula,Cryo,1,0,1,0,0
+Faruzan,Anemo,0,1,0,1,0
+Fischl,Electro,0,1,1,0,0
+Flins,Electro,1,0,1,0,0
+Freminet,Cryo,1,0,1,0,0
+Furina,Hydro,0,1,1,1,1
+Gaming,Pyro,1,0,1,0,0
+Ganyu,Cryo,1,0,1,0,0
+Gorou,Geo,0,1,0,1,0
+Hu Tao,Pyro,1,0,1,0,0
+Iansan,Electro,0,1,0,1,1
+Ifa,Anemo,1,0,0,1,1
+Ineffa,Electro,0,1,1,0,1
+Jean,Anemo,0,1,0,0,1
+Kachina,Geo,0,1,1,0,0
+Kaedehara Kazuha,Anemo,0,1,0,1,0
+Kaeya,Cryo,0,1,1,0,0
+Kamisato Ayaka,Cryo,1,0,1,0,0
+Kamisato Ayato,Hydro,1,0,1,0,0
+Kaveh,Dendro,1,0,1,0,0
+Keqing,Electro,1,0,1,0,0
+Kinich,Dendro,1,0,1,0,0
+Kirara,Dendro,0,1,0,0,1
+Klee,Pyro,1,0,1,0,0
+Kujou Sara,Electro,0,1,0,1,0
+Kuki Shinobu,Electro,0,1,0,0,1
+Lan Yan,Anemo,0,1,1,0,1
+Lauma,Dendro,0,1,0,1,0
+Layla,Cryo,0,1,0,0,1
+Lisa,Electro,0,1,1,0,0
+Lynette,Anemo,0,1,1,0,0
+Lyney,Pyro,1,0,1,0,0
+Mavuika,Pyro,1,1,1,1,0
+Mika,Cryo,0,1,0,1,1
+Mona,Hydro,0,1,0,1,0
+Mualani,Hydro,1,0,1,0,0
+Nahida,Dendro,0,1,1,1,0
+Navia,Geo,1,0,1,0,0
+Nefer,Dendro,1,0,1,0,0
+Neuvillette,Hydro,1,0,1,0,0
+Nilou,Hydro,0,1,1,1,0
+Ningguang,Geo,1,0,1,0,0
+Noelle,Geo,1,0,1,0,1
+Ororon,Electro,0,1,1,0,0
+Qiqi,Cryo,0,1,0,0,1
+Raiden Shogun,Electro,1,0,1,1,0
+Razor,Electro,1,0,1,0,0
+Rosaria,Cryo,0,1,1,0,0
+Sangonomiya Kokomi,Hydro,0,1,0,1,1
+Sayu,Anemo,0,1,0,0,1
+Sethos,Electro,1,0,1,0,0
+Shenhe,Cryo,0,1,0,1,0
+Shikanoin Heizou,Anemo,1,0,1,0,0
+Sigewinne,Hydro,0,1,0,1,1
+Skirk,Cryo,1,0,1,0,0
+Sucrose,Anemo,0,1,0,1,0
+Tartaglia,Hydro,1,0,1,0,0
+Thoma,Pyro,0,1,0,0,1
+Tighnari,Dendro,1,0,1,0,0
+Varesa,Electro,1,0,1,0,0
+Venti,Anemo,0,1,1,1,0
+Wanderer,Anemo,1,0,1,0,0
+Wriothesley,Cryo,1,0,1,0,0
+Xiangling,Pyro,0,1,1,0,0
+Xianyun,Anemo,0,1,0,1,1
+Xiao,Anemo,1,0,1,0,0
+Xilonen,Geo,0,1,0,1,1
+Xingqiu,Hydro,0,1,1,0,1
+Xinyan,Pyro,0,1,0,0,1
+Yae Miko,Electro,0,1,1,0,0
+Yanfei,Pyro,1,0,1,0,0
+Yaoyao,Dendro,0,1,0,0,1
+Yelan,Hydro,0,1,1,0,0
+Yoimiya,Pyro,1,0,1,0,0
+Yumemizuki Mizuki,Anemo,1,0,1,0,1
+Yun Jin,Geo,0,1,0,1,0
+Zhongli,Geo,0,1,0,1,1
