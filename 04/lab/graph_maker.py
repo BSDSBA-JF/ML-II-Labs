@@ -307,3 +307,35 @@ def create_graph(version: int, char_names=char_names, image_english_mapping=imag
     possible_teams = get_team_per_version(version, char_names, mode=mode)
     co_occur_use, co_occur_has = get_use_has_cooccur(possible_teams, image_english_mapping)
     return get_graph(co_occur_use, co_occur_has)
+
+
+def get_graph_relative(co_occur_use, co_occur_has):
+    """
+    Create a NetworkX graph with relative usage weights:
+    weight_relative = weight_use / weight_has
+    
+    ```
+    Edges with weight_has = 0 are skipped.
+    """
+    # union of keys
+    all_pairs = set(co_occur_use.keys()) | set(co_occur_has.keys())
+    
+    G = nx.Graph()
+    
+    for char1, char2 in all_pairs:
+        use_val = co_occur_use.get((char1, char2), 0)
+        has_val = co_occur_has.get((char1, char2), 0)
+    
+        # Skip edges where has_val is 0 to avoid division by zero
+        if has_val == 0:
+            continue
+    
+        relative_weight = use_val / has_val
+    
+        G.add_edge(
+            char1, char2,
+            weight_relative=relative_weight,
+            weight_has=has_val  # optional: keep original ownership count
+        )
+    
+    return G
