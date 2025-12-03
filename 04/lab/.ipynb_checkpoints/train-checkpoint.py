@@ -127,14 +127,14 @@ def train_random_forest_with_centrality(
         print(f"Best Params: {best_params}")
     
     # Predict on test set (matches notebook exactly)
-    y_pred_train = best_model.predict(X_train)
+    y_pred = best_model.predict(X_test)
     
     # Compute metrics
-    metrics = ForecastingMetrics.compute_all_metrics(y_train, y_pred_train)
+    metrics = ForecastingMetrics.compute_all_metrics(y_test, y_pred)
     
     if verbose:
         print(f"\n{'='*60}")
-        print("TRAIN SET PERFORMANCE METRICS")
+        print("TEST SET PERFORMANCE METRICS")
         print(f"{'='*60}")
         for metric_name, metric_value in metrics.items():
             print(f"{metric_name:25s}: {metric_value:,.2f}")
@@ -168,7 +168,7 @@ def train_random_forest_with_centrality(
     "feature_importances": feature_importance_df,
     "X_train": X_train,
     "y_train": y_train,
-    "y_pred_train": y_pred_train
+    "y_pred": y_pred
 }
 
 
